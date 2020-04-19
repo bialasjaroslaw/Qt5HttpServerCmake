@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 3.15)
+project(HttpServerSimpleExample)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_COLOR_MAKEFILE   ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(Qt5Core CONFIG REQUIRED)
+find_package(Qt5Network CONFIG REQUIRED)
+find_package(Qt5WebSockets CONFIG REQUIRED)
+
+
+set(SOURCES
+    main.cpp
+    )
+
+set(SERVER_SSL_DIST_FILES
+    server.crt
+    server.key
+    )
+
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_link_libraries(${PROJECT_NAME} PUBLIC Qt5HttpServer)
+target_compile_definitions(${PROJECT_NAME} PUBLIC QT_USE_QSTRINGBUILDER QT_DEPRECATED_WARNINGS QT_FEATURE_SSL=1)
+target_compile_definitions(${PROJECT_NAME} PUBLIC USER_CERT)
+file(COPY ${HEADER_FILES} DESTINATION ${TEMP_INCLUDE_DIR}/${LIB_NAME}/)
+file(COPY ${SERVER_SSL_DIST_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
