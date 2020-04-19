@@ -19,10 +19,13 @@ set(SOURCES
     main.cpp
     )
 
-set(SERVER_SSL_DIST_FILES
-    server.crt
-    server.key
-    )
+if(USE_SERVER_SSL_DIST_FILES)
+    set(SERVER_SSL_DIST_FILES
+        server.crt
+        server.key
+        )
+    file(COPY ${SERVER_SSL_DIST_FILES} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif()
 
 
 add_executable(${PROJECT_NAME} ${SOURCES})
